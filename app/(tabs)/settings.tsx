@@ -1,10 +1,10 @@
 import { Text, View } from "react-native";
 
-export default function HomeScreen() {
+export default function SettingsScreen() {
 
   return (
     <View>
-      <Text>Home screen</Text>
+      <Text>Settings screen</Text>
     </View>
   )
 }

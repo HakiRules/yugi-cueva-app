@@ -4,7 +4,7 @@ export default function SettingsScreen() {
 
   return (
     <View>
-      <Text>Settings screen</Text>
+      <Text>Matches screen</Text>
     </View>
   )
 }

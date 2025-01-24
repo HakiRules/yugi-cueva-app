@@ -1,6 +1,7 @@
+import { Chip } from "@/components/Chip";
 import { Deck } from "@/types/Deck";
 import { Link } from "expo-router";
-import { FlatList, Image, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { FlatList, ImageBackground, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export default function HomeScreen() {
   const timestamp = new Date().getTime()
@@ -8,7 +9,7 @@ export default function HomeScreen() {
   return (
     <FlatList
       style={{ margin: 5 }}
-      numColumns={2}
+      numColumns={1}
       data={UserDecks}
       renderItem={({ item }) =>
         <Link
@@ -19,13 +20,29 @@ export default function HomeScreen() {
           asChild
         >
           <TouchableOpacity style={styles.card}>
-            <Text style={{ textAlign: "center" }}>{item.name}</Text>
-            <Image
-              width={50}
-              height={50}
+            <ImageBackground
+              style={{ flex: 1 }}
+              imageStyle={{ borderRadius: 5 }}
+              resizeMode="cover"
               source={{
                 uri: `https://tbdesplqufizydsciqzq.supabase.co/storage/v1/object/public/DeckImages/${item.id}.jpeg?ver=${timestamp}`
-              }} />
+              }}
+            >
+              <View style={styles.imageBackgroundOpacity}>
+                <View style={{ flexDirection: "row", gap: 5 }}>
+                  <Chip>
+                    {item.tierlist}
+                  </Chip>
+                  <Chip>
+                    Tier {item.tier}
+                  </Chip>
+                </View>
+                <View>
+                  <Text style={{ color: 'white', fontSize: 25 }}>{item.name}</Text>
+                  <Text style={{ color: 'white' }}>{item.points} points</Text>
+                </View>
+              </View>
+            </ImageBackground>
           </TouchableOpacity>
         </Link>
       }
@@ -36,14 +53,19 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
   card: {
-    flex: 1,
-    borderStyle: "solid",
-    borderWidth: 1,
-    borderBlockColor: "black",
+    borderRadius: 5,
     margin: 5,
-    alignItems: "center"
-  }
-});
+    height: 130
+  },
+  imageBackgroundOpacity: {
+    flex: 1,
+    backgroundColor: '#000000b3',
+    borderRadius: 5,
+    padding: 10,
+    flexDirection: "column",
+    justifyContent: "space-between"
+  },
+})
 
 const UserDecks: Deck[] = [
   {

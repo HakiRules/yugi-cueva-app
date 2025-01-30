@@ -1,10 +1,11 @@
 import { Chip } from "@/components/Chip";
-import { Deck } from "@/types/Deck";
+import { UserDecks } from "@/constants/data";
 import { Link } from "expo-router";
 import { FlatList, ImageBackground, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
+const timestamp = new Date().getTime()
+
 export default function HomeScreen() {
-  const timestamp = new Date().getTime()
 
   return (
     <FlatList
@@ -15,7 +16,7 @@ export default function HomeScreen() {
         <Link
           href={{
             pathname: '/deck',
-            params: { user: item.name }
+            params: { id: item.id }
           }}
           asChild
         >
@@ -66,22 +67,3 @@ const styles = StyleSheet.create({
     justifyContent: "space-between"
   },
 })
-
-const UserDecks: Deck[] = [
-  {
-    "id": "4331b756-24d5-45f7-8d40-e2cf838be474",
-    "name": "Virtual World",
-    "tierlist": "META",
-    "tier": -10,
-    "points": 0,
-    "owner": "56cf938e-3099-4dcf-a70c-e5de9258973d"
-  },
-  {
-    "id": "4331b756-24d5-45f7-8d40-e2cf838be474",
-    "name": "Magickey",
-    "tierlist": "META",
-    "tier": -10,
-    "points": 0,
-    "owner": "56cf938e-3099-4dcf-a70c-e5de9258973d"
-  }
-]

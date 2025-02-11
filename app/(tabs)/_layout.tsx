@@ -1,38 +1,40 @@
 import TabBar from "@/components/TabBar";
 import { Tabs } from "expo-router";
+import { useTranslation } from "react-i18next";
 
 export default function TabLayout() {
+  const { t } = useTranslation()
 
   return (
     <Tabs screenOptions={{ headerShown: false }} tabBar={props => <TabBar {...props} />}>
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
+          title: t('layout.tab.home'),
         }}
       />
       <Tabs.Screen
         name="matches"
         options={{
-          title: 'Matches',
+          title: t('layout.tab.matches'),
         }}
       />
       <Tabs.Screen
         name="fight"
         options={{
-          title: 'Fight',
+          title: t('layout.tab.fight'),
         }}
       />
       <Tabs.Screen
         name="tierlist"
         options={{
-          title: 'Tierlist',
+          title: t('layout.tab.tierlist'),
         }}
       />
       <Tabs.Screen
         name="settings"
         options={{
-          title: 'Settings',
+          title: t('layout.tab.settings'),
         }}
       />
     </Tabs>

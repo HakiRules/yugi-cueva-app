@@ -2,6 +2,7 @@ import { CardsInDeck } from "@/constants/data";
 import { CardInDeck, CardPosition } from "@/types/Card";
 import { useLocalSearchParams } from "expo-router";
 import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { Image, ScrollView, Text, View } from "react-native";
 
 type DeckStructure = {
@@ -14,6 +15,7 @@ const timestamp = new Date().getTime()
 
 export default function Page() {
   const { id } = useLocalSearchParams()
+  const { t } = useTranslation()
 
   const deck = useMemo(() =>
     CardsInDeck.reduce<DeckStructure>(
@@ -36,7 +38,7 @@ export default function Page() {
   return (
     <ScrollView style={{ padding: 10 }}>
       <View>
-        <Text>Main Deck ({mainDeckCount} Card Deck)</Text>
+        <Text>{t("deck.main.title", { mainDeckCount })}</Text>
       </View>
       <View style={{ flex: 5, flexDirection: 'row', flexWrap: 'wrap', padding: 2 }}>
         {deck[CardPosition.MAIN].map(item => <View style={{ padding: 2, maxWidth: '20%' }}>
@@ -50,7 +52,7 @@ export default function Page() {
         </View>)}
       </View>
       <View>
-        <Text>Extra Deck</Text>
+        <Text>{t("deck.extra.title")}</Text>
       </View>
       <View style={{ flex: 5, flexDirection: 'row', flexWrap: 'wrap', padding: 2 }}>
         {deck[CardPosition.EXTRA].map(item => <View style={{ padding: 2, maxWidth: '20%' }}>
@@ -64,7 +66,7 @@ export default function Page() {
         </View>)}
       </View>
       <View>
-        <Text>Side Deck</Text>
+        <Text>{t("deck.side.title")}</Text>
       </View>
       <View style={{ flex: 5, flexDirection: 'row', flexWrap: 'wrap', padding: 2 }}>
         {deck[CardPosition.SIDE].map(item => <View style={{ padding: 2, maxWidth: '20%' }}>

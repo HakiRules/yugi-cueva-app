@@ -2,7 +2,7 @@ import { BottomTabBarProps } from "@react-navigation/bottom-tabs"
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native"
 import { Ionicons } from "@expo/vector-icons"
 import { ReactNode } from "react"
-import { colors } from "@/constants/colors"
+import { Colors } from "@/constants/colors"
 
 
 type RouteIcons = {
@@ -55,8 +55,8 @@ const TabBar = ({ state, descriptors, navigation }: BottomTabBarProps) => {
             onPress={onPress}
             onLongPress={onLongPress}
           >
-            {icons[route.name](isFocused ? colors.primary : colors.grey)}
-            <Text style={{ color: isFocused ? colors.primary : colors.grey, fontSize: 11 }}>
+            {icons[route.name](isFocused ? Colors.primary : Colors.grey)}
+            <Text style={{ color: isFocused ? Colors.primary : Colors.grey, fontSize: 11 }}>
               {options.title}
             </Text>
           </TouchableOpacity>

@@ -1,9 +1,15 @@
 import TabBar from "@/components/TabBar";
-import { Tabs } from "expo-router";
+import { useAuthStore } from "@/store/useAuthStore";
+import { Redirect, Tabs } from "expo-router";
 import { useTranslation } from "react-i18next";
 
 export default function TabLayout() {
   const { t } = useTranslation()
+  const user = useAuthStore((state) => state.auth?.token)
+
+  if (!user) {
+    return <Redirect href='/' />
+  }
 
   return (
     <Tabs screenOptions={{ headerShown: false }} tabBar={props => <TabBar {...props} />}>

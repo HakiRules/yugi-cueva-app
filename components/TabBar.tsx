@@ -2,7 +2,7 @@ import { BottomTabBarProps } from "@react-navigation/bottom-tabs"
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native"
 import { Ionicons } from "@expo/vector-icons"
 import { ReactNode } from "react"
-import { Colors } from "@/constants/colors"
+import { Colors } from "@/constants/theme"
 
 
 type RouteIcons = {

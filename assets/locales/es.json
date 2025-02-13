@@ -6,5 +6,8 @@
   "layout.tab.settings": "Optiones",
   "deck.main.title": "Main Deck ({{mainDeckCount}} Card Deck)",
   "deck.extra.title": "Extra Deck",
-  "deck.side.title": "Side Deck"
+  "deck.side.title": "Side Deck",
+  "login.email": "Usuario/Email",
+  "login.password": "Contraseña",
+  "login.sign-in": "Iniciar sesion"
 }

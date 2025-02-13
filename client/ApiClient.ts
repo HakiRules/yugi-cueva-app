@@ -5,7 +5,7 @@ export class ApiClient {
 
   public static get instance(): SupabaseClient {
     if (!ApiClient.supabaseClient) {
-        ApiClient.supabaseClient = createClient(process.env.EXPO_PUBLIC_SUPABASE_URL ?? "", process.env.EXPO_PUBLIC_SUPABASE_PUBLIC_KEY ?? "");
+      ApiClient.supabaseClient = createClient(process.env.EXPO_PUBLIC_SUPABASE_URL ?? "", process.env.EXPO_PUBLIC_SUPABASE_PUBLIC_KEY ?? "");
     }
 
     return ApiClient.supabaseClient;

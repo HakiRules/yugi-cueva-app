@@ -1,44 +1,53 @@
 import { login } from "@/client/Authentcation";
-import { Colors } from "@/constants/colors";
+import { Colors } from "@/constants/theme";
 import { useAuthStore } from "@/store/useAuthStore";
 import { useState } from "react";
-import { Button, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Image, View } from "react-native";
+import { Button, TextInput } from "react-native-paper";
+import Logo from "@/assets/images/logo.png"
+import { useTranslation } from "react-i18next";
+import { router } from "expo-router";
 
 export default function SignIn() {
+  const { t } = useTranslation()
   const setAuth = useAuthStore(state => state.setAuth)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: Colors.secondary }}>
+    <View style={{ backgroundColor: Colors.secondary, height: "100%", display: "flex", justifyContent: "center", padding: 12, gap: 12 }}>
+      <View style={{ marginHorizontal: 'auto', alignItems: 'center' }}>
+        <Image style={{ width: 200, height: 200 }} source={Logo} />
+      </View>
       <TextInput
-        style={{ borderRadius: 10 }}
+        label={t("login.email")}
         onChangeText={setEmail}
+        mode="outlined"
         value={email}
       />
       <TextInput
-        style={{ borderRadius: 10 }}
+        label={t("login.password")}
         onChangeText={setPassword}
+        mode="outlined"
         value={password}
         secureTextEntry
       />
-      <TouchableOpacity
+      <Button
         style={{ backgroundColor: Colors.primary, borderRadius: 10, paddingVertical: 10, paddingHorizontal: 12, elevation: 8 }}
-        disabled={!(!!email && !!password)}
+        textColor="white"
         onPress={() => {
+          if (!email || !password) return
           login(email, password).then(res => {
-            console.log(res)
             setAuth({
               userId: res.data.user?.id,
               expiresAt: res.data.session?.expires_at,
               token: res.data.session?.access_token
             })
+            router.replace("/(tabs)")
           })
         }}>
-        <Text style={{ color: 'white', fontWeight: 'bold' }}>
-          Sign in
-        </Text>
-      </TouchableOpacity>
+        {t("login.sign-in")}
+      </Button>
     </View>
   );
 }

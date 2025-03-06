@@ -1,17 +1,19 @@
 import { Chip } from "@/components/Chip";
-import { UserDecks } from "@/constants/data";
 import { Link } from "expo-router";
 import { FlatList, ImageBackground, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useHome } from "@/hooks/useHome";
 
 const timestamp = new Date().getTime()
 
 export default function HomeScreen() {
 
+  const { decks } = useHome()
+
   return (
     <FlatList
       style={{ margin: 5 }}
       numColumns={1}
-      data={UserDecks}
+      data={decks}
       renderItem={({ item }) =>
         <Link
           href={{

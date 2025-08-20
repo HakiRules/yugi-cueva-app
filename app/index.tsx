@@ -1,18 +1,27 @@
 import { login } from "@/client/Authentcation";
 import { Colors } from "@/constants/theme";
 import { useAuthStore } from "@/store/useAuthStore";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Image, View } from "react-native";
 import { Button, TextInput } from "react-native-paper";
 import Logo from "@/assets/images/logo.png"
 import { useTranslation } from "react-i18next";
 import { router } from "expo-router";
+import { ApiClient } from "@/client/ApiClient";
 
 export default function SignIn() {
   const { t } = useTranslation()
   const setAuth = useAuthStore(state => state.setAuth)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+
+  useEffect(() => {
+    ApiClient.instance.auth.getUser().then(res => {
+      if (res.data.user?.id) {
+        router.replace("/(tabs)")
+      }
+    })
+  }, [])
 
   return (
     <View style={{ backgroundColor: Colors.secondary, height: "100%", display: "flex", justifyContent: "center", padding: 12, gap: 12 }}>

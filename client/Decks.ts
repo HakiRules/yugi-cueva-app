@@ -7,3 +7,7 @@ export const getUserDecks = async (user: string) => {
 export const getCardsInDeck = async (deckId: string) => {
   return ApiClient.instance.from('card_in_deck').select().eq("deck_id", deckId)
 }
+
+export const getDecksByIds = async (ids: string[]) => {
+  return ApiClient.instance.from('deck').select().in('id', ids);
+}

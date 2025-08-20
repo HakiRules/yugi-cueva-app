@@ -5,7 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Tables } from "@/types/database.types";
 
 interface IDeckState {
-  decks: Tables<'deck'>[] | null;
+  decks: Tables<'deck'>[];
   setDecks: (decks: Tables<'deck'>[]) => void;
 }
 

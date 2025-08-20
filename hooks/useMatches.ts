@@ -8,13 +8,14 @@ import { useEffect, useState } from "react"
 type MatchData = {
   playerDeck?: Tables<'deck'>,
   playerScore: number
+  playerPoints: string
   opponentScore: number,
   opponentDeck?: Tables<'deck'>
+  opponentPoints: string,
   matchId: string
   type: string
   sideDeck: boolean
   date: Date
-  pointsChange: string,
   win: boolean
 }
 
@@ -33,25 +34,27 @@ export const useMatches = () => {
     const loadedDecks: Tables<"deck">[] = [...decks]
     const missingDecks = matchesData?.filter(itm => !decks?.find(deck => deck.id === itm.deck))?.map(itm => itm.deck) ?? []
     if(missingDecks){
-      const { data: decks } = await getDecksByIds(missingDecks)
-      loadedDecks.concat(decks ?? []) 
+      const { data: decksInfo } = await getDecksByIds(missingDecks)
+      loadedDecks.push(...(decksInfo ?? [])) 
     }
     
     matches?.forEach(match => {
       const playerMatches = matchesData?.filter(itm => itm.match_id === match.id)
       const playerMatch = playerMatches?.find(itm => itm.player === user)
       const opponentMatch = playerMatches?.find(itm => itm.player !== user)
+      const opponentDeck = loadedDecks.find(deck => deck.id === opponentMatch?.deck ?? "")
       if(playerMatch){
         collapseMatchData.push({
-          playerDeck: decks.find(deck => deck.id === playerMatch?.deck ?? ""),
+          playerDeck: loadedDecks.find(deck => deck.id === playerMatch?.deck ?? ""),
           playerScore: playerMatch?.score ?? 0,
-          opponentDeck: decks.find(deck => deck.id === opponentMatch?.deck ?? ""),
+          playerPoints: playerMatch?.deck_point_changes ?? "",
+          opponentDeck: opponentDeck,
           opponentScore: opponentMatch?.score ?? 0,
+          opponentPoints: opponentMatch?.deck_point_changes ?? "",
           matchId: match.id,
           type: match.type ?? "",
           sideDeck: match.side_deck ?? false,
           date: new Date(match.date),
-          pointsChange: playerMatch?.deck_point_changes ?? "",
           win: playerMatch?.winner ?? false
         })
       }

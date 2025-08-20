@@ -1,12 +1,13 @@
 import { getUserDecks } from "@/client/Decks";
 import { useAuthStore } from "@/store/useAuthStore";
 import { useDeckStore } from "@/store/useDecksStore";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 
 export const useHome = () => {
 
-  const { decks, setDecks } = useDeckStore()
+  const { decks, updateDecks } = useDeckStore()
   const user = useAuthStore(state => state.auth?.userId)
+
 
   useEffect(() => {
     if(user){
@@ -14,13 +15,17 @@ export const useHome = () => {
         if(res.error){
 
         }else{
-          setDecks(res.data)
+          updateDecks(res.data)
         }
       })
     }
   }, [])
 
+  const userDecks = useMemo(() => {
+    return decks.filter(deck => deck.owner === user)
+  }, [decks])
+
   return {
-    decks
+    userDecks
   }
 }

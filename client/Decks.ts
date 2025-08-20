@@ -11,3 +11,7 @@ export const getCardsInDeck = async (deckId: string) => {
 export const getDecksByIds = async (ids: string[]) => {
   return ApiClient.instance.from('deck').select().in('id', ids);
 }
+
+export const getAllMetaDecks = async () => {
+  return ApiClient.instance.from('deck').select().eq('tierlist', "META");
+}

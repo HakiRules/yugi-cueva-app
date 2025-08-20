@@ -7,13 +7,13 @@ const timestamp = new Date().getTime()
 
 export default function HomeScreen() {
 
-  const { decks } = useHome()
+  const { userDecks } = useHome()
 
   return (
     <FlatList
       style={{ margin: 5 }}
       numColumns={1}
-      data={decks}
+      data={userDecks}
       renderItem={({ item }) =>
         <Link
           href={{

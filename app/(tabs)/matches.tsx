@@ -1,8 +1,7 @@
 import { useMatches } from "@/hooks/useMatches";
-import { Dimensions, FlatList, ImageBackground, ScrollView, StyleSheet, View } from "react-native";
+import { FlatList, ImageBackground, StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
 
-const { width } = Dimensions.get("window");
 const timestamp = new Date().getTime()
 
 export default function SettingsScreen() {
@@ -16,28 +15,36 @@ export default function SettingsScreen() {
       data={matches}
       renderItem={({ item }) =>
         <View style={styles.matchCard}>
-          <ImageBackground
-            source={{ uri: `https://tbdesplqufizydsciqzq.supabase.co/storage/v1/object/public/DeckImages/${item.playerDeck?.id ?? ""}.jpeg?ver=${timestamp}` }}
-            style={styles.playerSide}
-            imageStyle={{ borderTopLeftRadius: 16, borderBottomLeftRadius: 16 }}
-          >
-            <View style={styles.overlay}>
-              <Text style={styles.playerName}>{item.playerDeck?.name}</Text>
+          <View style={{ justifyContent: "space-between", flexDirection: "row", paddingHorizontal: 10 }}>
+            <Text style={styles.deckName}>{item.type}</Text>
+            <Text style={styles.deckName}>{new Intl.DateTimeFormat('en-GB').format(item.date)}</Text>
+          </View>
+          <View style={[styles.matchInfo, { height: "auto" }]}>
+            <View style={{ flex: 1 }}>
+              <ImageBackground
+                source={{ uri: `https://tbdesplqufizydsciqzq.supabase.co/storage/v1/object/public/DeckImages/${item.playerDeck?.id ?? ""}.jpeg?ver=${timestamp}` }}
+                style={styles.playerSide}
+              >
+                <View style={styles.overlay}>
+                  <Text style={styles.deckName}>{item.playerDeck?.name}</Text>
+                  <Text style={styles.points}>{item.playerPoints}</Text>
+                </View>
+              </ImageBackground>
             </View>
-          </ImageBackground>
-
-          <ImageBackground
-            source={{ uri: `https://tbdesplqufizydsciqzq.supabase.co/storage/v1/object/public/DeckImages/${item.opponentDeck?.id ?? ""}.jpeg?ver=${timestamp}` }}
-            style={styles.playerSide}
-            imageStyle={{ borderTopRightRadius: 16, borderBottomRightRadius: 16 }}
-          >
-            <View style={styles.overlay}>
-              <Text style={styles.playerName}>{item.opponentDeck?.name}</Text>
+            <View style={styles.center}>
+              <Text style={styles.score}>{`${item.playerScore} - ${item.opponentScore}`}</Text>
             </View>
-          </ImageBackground>
-          <View style={styles.centerOverlay}>
-            <View style={styles.separator} />
-            <Text style={styles.score}>{`${item.playerScore}  - ${item.opponentScore}`}</Text>
+            <View style={{ flex: 1 }}>
+              <ImageBackground
+                source={{ uri: `https://tbdesplqufizydsciqzq.supabase.co/storage/v1/object/public/DeckImages/${item.opponentDeck?.id ?? ""}.jpeg?ver=${timestamp}` }}
+                style={styles.playerSide}
+              >
+                <View style={styles.overlay}>
+                  <Text style={styles.deckName}>{item.opponentDeck?.name}</Text>
+                  <Text style={styles.points}>{item.opponentPoints}</Text>
+                </View>
+              </ImageBackground>
+            </View>
           </View>
         </View>
       }
@@ -48,15 +55,16 @@ export default function SettingsScreen() {
 
 const styles = StyleSheet.create({
   matchCard: {
-    flexDirection: "row",
-    width: width - 24,
     height: 160,
     marginBottom: 16,
     borderRadius: 16,
     overflow: "hidden",
     elevation: 4,
-    backgroundColor: "#000",
-    position: "relative",
+    backgroundColor: "#393f44",
+  },
+  matchInfo: {
+    flexDirection: "row",
+    flex: 1
   },
   playerSide: {
     flex: 1,
@@ -64,38 +72,29 @@ const styles = StyleSheet.create({
   },
   overlay: {
     backgroundColor: "rgba(0,0,0,0.5)",
-    padding: 6,
+    padding: 4,
   },
-  playerName: {
+  deckName: {
     color: "#fff",
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: "bold",
     textAlign: "center",
   },
-  centerOverlay: {
-    position: "absolute",
-    top: 0,
-    bottom: 0,
-    left: "40%",
-    right: "40%",
+  points: {
+    color: "#fff",
+    fontSize: 12,
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  center: {
+    width: 80,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0,0,0,0.4)", // centro translúcido
-    width: 80,
   },
   score: {
     color: "#fff",
     fontSize: 22,
     fontWeight: "bold",
-    zIndex: 2,
-    top: 0,
-    bottom: 0,
-  },
-  separator: {
-    position: "absolute",
-    width: 3,
-    height: "120%",
-    backgroundColor: "#fff",
-    zIndex: 1,
+    marginBottom: 8,
   },
 });

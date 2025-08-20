@@ -1,11 +1,21 @@
 import TabBar from "@/components/TabBar";
 import { useAuthStore } from "@/store/useAuthStore";
-import { Redirect, Tabs } from "expo-router";
+import { Redirect, Tabs, usePathname } from "expo-router";
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import * as ScreenOrientation from 'expo-screen-orientation';
 
 export default function TabLayout() {
   const { t } = useTranslation()
   const user = useAuthStore((state) => state.auth?.token)
+  const pathname = usePathname()
+
+  useEffect(() => {
+    if (pathname === "/fight")
+      ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE)
+    else
+      ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT)
+  }, [pathname])
 
   if (!user) {
     return <Redirect href='/' />
@@ -37,7 +47,8 @@ export default function TabLayout() {
           title: t('layout.tab.fight'),
           sceneStyle: {
             backgroundColor: "#0c1840"
-          }
+          },
+          tabBarStyle: { display: "none" }
         }}
       />
       <Tabs.Screen
